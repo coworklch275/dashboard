@@ -84,16 +84,23 @@ col4.metric("최대/최소 매출 월", f"{max_row['월_label']} / {min_row['월
 st.markdown("---")
 
 # --------------------------
+# 브랜드 컬러 팔레트
+# --------------------------
+brand_colors = ["#04e867", "#e9faf0", "#feffff", "#03e766", "#02c665"]
+
+# --------------------------
 # 1) 월별 추세 비교 (현재 vs 전년동월)
 # --------------------------
 fig_line = go.Figure()
 fig_line.add_trace(go.Scatter(
     x=df["월_label"], y=df["매출액"], mode="lines+markers",
-    name="매출액", hovertemplate="월=%{x}<br>매출액=%{y:,} 원"
+    name="매출액", line=dict(color=brand_colors[0]),
+    hovertemplate="월=%{x}<br>매출액=%{y:,} 원"
 ))
 fig_line.add_trace(go.Scatter(
     x=df["월_label"], y=df["전년동월"], mode="lines+markers",
-    name="전년동월", hovertemplate="월=%{x}<br>전년동월=%{y:,} 원"
+    name="전년동월", line=dict(color=brand_colors[4]),
+    hovertemplate="월=%{x}<br>전년동월=%{y:,} 원"
 ))
 fig_line.update_layout(
     title="월별 매출 추세 비교 (현재 vs 전년동월)",
@@ -108,13 +115,13 @@ st.plotly_chart(fig_line, use_container_width=True)
 # --------------------------
 # 2) 전년 대비 증감률 (%) 바 차트
 # --------------------------
-bar_colors = np.where(df["증감률"] >= 0, "#16a34a", "#dc2626")
+bar_colors = np.where(df["증감률"] >= 0, brand_colors[0], brand_colors[1])
 fig_bar = go.Figure()
 fig_bar.add_trace(go.Bar(
     x=df["월_label"], y=df["증감률"], marker_color=bar_colors,
     name="증감률", hovertemplate="월=%{x}<br>증감률=%{y:.1f}%"
 ))
-fig_bar.add_hline(y=0, line_width=1, line_dash="solid", line_color="#64748b")
+fig_bar.add_hline(y=0, line_width=1, line_dash="solid", line_color=brand_colors[2])
 fig_bar.update_layout(
     title="전년 대비 증감률 (%)",
     xaxis_title="월",
@@ -125,17 +132,17 @@ fig_bar.update_layout(
 st.plotly_chart(fig_bar, use_container_width=True)
 
 # --------------------------
-# 3) 3개월 이동평균(창 선택 가능) 라인
+# 3) 이동평균 라인
 # --------------------------
 fig_mma = go.Figure()
 fig_mma.add_trace(go.Scatter(
     x=df["월_label"], y=df["매출액"], mode="lines+markers",
-    name="매출액(원자료)", opacity=0.45,
+    name="매출액(원자료)", opacity=0.45, line=dict(color=brand_colors[2]),
     hovertemplate="월=%{x}<br>매출액=%{y:,} 원"
 ))
 fig_mma.add_trace(go.Scatter(
     x=df["월_label"], y=df["매출액_이동평균"], mode="lines+markers",
-    name=f"매출액 {window}MMA",
+    name=f"매출액 {window}MMA", line=dict(color=brand_colors[3]),
     hovertemplate=f"월=%{{x}}<br>{window}MMA=%{{y:,.0f}} 원"
 ))
 fig_mma.update_layout(
