@@ -10367,17 +10367,18 @@ with tab2:
 
     # 국가별 통화 심볼 (Yahoo Finance 기준)
     currencies = {
-        "중국": "USDCNY=X",    # USD/CNY
-        "미국": "USDKRW=X",    # USD/KRW (표기만 '미국'이지만 KRW 환율 예시)
-        "베트남": "USDVND=X",  # USD/VND
-        "페루": "USDPEN=X",    # USD/PEN
-        "러시아": "USDRUB=X",  # USD/RUB
-        "태국": "USDTHB=X",    # USD/THB
-        "칠레": "USDCLP=X",    # USD/CLP
-        "인도": "USDINR=X",    # USD/INR
-        "뉴질랜드": "NZDUSD=X",# NZD/USD (→ 역수 변환)
-        "멕시코": "USDMXN=X",  # USD/MXN
+        "중국": "CNY=X",
+        "미국": "KRW=X",
+        "베트남": "VND=X",
+        "페루": "PEN=X",
+        "러시아": "RUB=X",
+        "태국": "THB=X",
+        "칠레": "CLP=X",
+        "인도": "INR=X",
+        "뉴질랜드": "NZD=X",  # USD/NZD -> 역수 불필요
+        "멕시코": "MXN=X",
     }
+
 
     with st.sidebar:
         st.header("⚙️ 환율 분석 옵션")
