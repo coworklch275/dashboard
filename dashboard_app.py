@@ -10388,16 +10388,15 @@ with tab2:
         cols = st.number_input("열(서브플롯)", min_value=1, max_value=2, value=2, step=1, key="fx_cols")
         show_outliers = st.checkbox("박스플롯 outlier 표시", value=False, key="fx_outliers")
 
-    # 데이터 다운로드
+        # 데이터 다운로드
     series_list, missing = [], []
     for country, ticker in currencies.items():
         try:
-            df_fx = yf.download(
-                ticker,
+            ticker_obj = yf.Ticker(ticker)
+            df_fx = ticker_obj.history(
                 start=pd.to_datetime(start_date),
                 end=pd.to_datetime(end_date),
-                interval="1d",
-                progress=False
+                interval="1d"
             )
         except Exception as e:
             df_fx = pd.DataFrame()
@@ -10421,6 +10420,7 @@ with tab2:
 
         s.name = country
         series_list.append(s)
+
 
     if not series_list:
         st.error("다운로드된 환율 데이터가 없습니다. 네트워크/티커를 확인하세요.")
